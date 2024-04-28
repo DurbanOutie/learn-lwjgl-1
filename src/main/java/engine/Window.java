@@ -18,11 +18,13 @@ import static org.lwjgl.glfw.GLFW.glfwSetErrorCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetCursorPosCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
 import static org.lwjgl.glfw.GLFW.glfwSetScrollCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
 import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.GLFW_MAXIMIZED;
 import static org.lwjgl.glfw.GLFW.GLFW_FALSE;
 import static org.lwjgl.glfw.GLFW.GLFW_TRUE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.system.MemoryUtil.NULL;
 import org.lwjgl.opengl.GL;
@@ -38,10 +40,13 @@ public class Window{
 
     private static Window window;
 
+    private float a, r, g, b;
+
     private Window(){
         this.width  = 400;
         this.height = 300;
         this.title  = "Mario";
+        a = r = g = b = 1.0f;
     }
 
     public static Window get(){
@@ -96,6 +101,7 @@ public class Window{
         glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
         glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
         glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
+        glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
 
         // Make the OpenGL Context Current
         glfwMakeContextCurrent(glfwWindow);
@@ -123,8 +129,21 @@ public class Window{
             // Poll Events
             glfwPollEvents();
 
-            glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+            if(KeyListener.isKeyPressed(GLFW_KEY_SPACE)){
+                r = Math.max(r - 0.001f, 0);
+                g = Math.max(g - 0.001f, 0);
+                b = Math.max(b - 0.001f, 0);
+            }else{
+                r = Math.min(r + 0.001f, 1);
+                g = Math.min(g + 0.001f, 1);
+                b = Math.min(b + 0.001f, 1);
+
+            }
+
+            glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
+
 
             glfwSwapBuffers(glfwWindow);
         }
