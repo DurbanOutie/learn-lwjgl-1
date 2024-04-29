@@ -1,5 +1,7 @@
 package engine;
 
+import util.Time;
+
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import static org.lwjgl.glfw.GLFW.glfwInit;
@@ -40,7 +42,9 @@ public class Window{
 
     private static Window window;
 
-    private float a, r, g, b;
+    public float a, r, g, b;
+
+    private static Scene currentScene;
 
     private Window(){
         this.width  = 400;
@@ -48,6 +52,21 @@ public class Window{
         this.title  = "Mario";
         a = r = g = b = 1.0f;
     }
+
+    public static void changeScene(int newScene){
+        switch (newScene){
+            case 0:
+                currentScene = new LevelEditorScene();
+                break;
+            case 1:
+                currentScene = new LevelScene();
+                break;
+            default:
+                System.out.println("unable to change Scene");
+                break;
+        }
+    }
+
 
     public static Window get(){
         if(window == null){
@@ -120,32 +139,38 @@ public class Window{
 		// bindings available for use.
 		GL.createCapabilities();
 
+        changeScene(0);
+
     }
     
     public void loop(){
 
+        float beginTime = Time.getTime();
+        float endTime = Time.getTime();
+        float dt = -1;
+
 
         while(!glfwWindowShouldClose(glfwWindow)){
+
+            System.out.println("" + dt + " dt");
+
+
+
             // Poll Events
             glfwPollEvents();
 
-
-            if(KeyListener.isKeyPressed(GLFW_KEY_SPACE)){
-                r = Math.max(r - 0.001f, 0);
-                g = Math.max(g - 0.001f, 0);
-                b = Math.max(b - 0.001f, 0);
-            }else{
-                r = Math.min(r + 0.001f, 1);
-                g = Math.min(g + 0.001f, 1);
-                b = Math.min(b + 0.001f, 1);
-
-            }
-
             glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
-
+            
+            if(dt > 0){
+                currentScene.update(dt); 
+            }
 
             glfwSwapBuffers(glfwWindow);
+
+            endTime = Time.getTime();
+            dt = endTime - beginTime;
+            beginTime = endTime;
         }
 
 
