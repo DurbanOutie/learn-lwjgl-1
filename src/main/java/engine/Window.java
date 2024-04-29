@@ -152,7 +152,6 @@ public class Window{
 
         while(!glfwWindowShouldClose(glfwWindow)){
 
-            System.out.println("" + dt + " dt");
 
 
 
@@ -162,7 +161,7 @@ public class Window{
             glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
             
-            if(dt > 0){
+            if(dt >= 0){
                 currentScene.update(dt); 
             }
 
@@ -172,35 +171,6 @@ public class Window{
             dt = endTime - beginTime;
             beginTime = endTime;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
