@@ -1,6 +1,6 @@
 #! /bin/bash
 
-cpath=./build:\
+cpath=./build/classes:\
 ./lib/jar/lwjgl.jar:\
 ./lib/jar/lwjgl-glfw.jar:\
 ./lib/jar/lwjgl-opengl.jar:

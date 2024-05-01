@@ -24,6 +24,7 @@ import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
 import static org.lwjgl.glfw.GLFW.GLFW_VISIBLE;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.GLFW_MAXIMIZED;
+import static org.lwjgl.glfw.GLFW.GLFW_FLOATING;
 import static org.lwjgl.glfw.GLFW.GLFW_FALSE;
 import static org.lwjgl.glfw.GLFW.GLFW_TRUE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
@@ -109,6 +110,7 @@ public class Window{
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
         glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
+        glfwWindowHint(GLFW_FLOATING, GLFW_TRUE);
 
         // Create Window
         glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
