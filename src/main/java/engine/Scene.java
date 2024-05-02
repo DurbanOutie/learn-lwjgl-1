@@ -1,6 +1,10 @@
 package engine;
 
 public abstract class Scene{
+
+
+    Camera camera;
+
     public Scene(){
     }
 
